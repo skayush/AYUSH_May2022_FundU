@@ -7,7 +7,6 @@ library(lubridate)
 
 dataset<- read.csv("https://raw.githubusercontent.com/skayush/AYUSH_May2022_FundU/main/June20_June26/Stocks.csv")
 
-
 #Plotting on small dataset
 #------------------------------------------------------------------------------------------------------------------------------
 #Filtering out the required data.
