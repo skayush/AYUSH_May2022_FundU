@@ -1,0 +1,13 @@
+name: App1
+title: App1
+username:
+account: ayushkrsingh
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6430007
+bundleId: 5977209
+url: https://ayushkrsingh.shinyapps.io/App1/
+when: 1654337147.48274
+lastSyncTime: 1654337147.48274
+asMultiple: FALSE
+asStatic: FALSE
