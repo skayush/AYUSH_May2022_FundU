@@ -2,7 +2,7 @@ rm(list=ls())      #To remove all variables stored previously
 library(Hmisc)
 
 #reading and viewing the data
-data <- read.csv("C:/Users/DELL/Desktop/COVID19_line_list_data.csv")
+data <- read.csv("May23_May29/COVID19_line_list_data.csv")
 describe(data)
 
 # cleaning of data
