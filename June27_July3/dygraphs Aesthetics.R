@@ -6,7 +6,7 @@ library(lubridate)
 library(RColorBrewer)
 library(plotly)
 
-dataset<- read.csv("C:/Users/DELL/Desktop/Stocks.csv")
+dataset<- read.csv("https://raw.githubusercontent.com/skayush/AYUSH_May2022_FundU/main/June27_July3/Stocks.csv")
 
 
 # We have to convert TIMESTAMP column to date format
