@@ -9,8 +9,6 @@ library(tidyverse)
 library(viridis)
 library(RColorBrewer)
 library(plotly)
-library(dygraphs)
-library(tidyverse)
 library(xts)
 library(tidyquant)
 library(lubridate)
@@ -25,7 +23,7 @@ shinyApp(
         title = "bs4Dash",
         color = "primary",
         href = "https://www.google.fr",
-        image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg",
+        image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg"
       ),
       skin = "light",
       status = "white",
@@ -61,11 +59,16 @@ shinyApp(
           "dygraphs_Aesthetics",
           tabName = "dygraphs_Aesthetics",
           icon = icon("id-card")
+        ),
+        menuItem(
+          "Final_Charts",
+          tabName = "Final_Charts",
+          icon = icon("id-card")
         )
       )
-    ),
+  ),
   
-    body = dashboardBody(
+    body = dashboardBody( 
       tabItems(
         tabItem(
           tabName = "highcharts",
@@ -172,8 +175,8 @@ shinyApp(
         ),
         tabItem(
             tabName = "dygraphs_Aesthetics",
-            
             fluidRow(
+              
               column(
                 width = 4,
                 dygraphOutput("dygraph_10")
@@ -205,9 +208,32 @@ shinyApp(
               column(width = 4,
                      dygraphOutput("dygraph_17"))
             )
+          ),
+        tabItem(
+          tabName = "Final_Charts",
+          
+          fluidRow(
+            column(
+              width = 5,
+              dygraphOutput("dygraph_18")
+              
+            ),
+            
+            column(width = 5,
+                   dygraphOutput("dygraph_19"))
+                   
+            ),
+          tags$hr(),
+          fluidRow(
+            column(width = 6,
+                   plotlyOutput("treemap_1")),
+            column(width = 6,
+                   plotlyOutput("treemap_2"))
+            
           )
         )
       )
+    )
   ),
   server = function(input, output) {
 
@@ -501,8 +527,8 @@ output$dygraph_17<-renderDygraph({
                 hideOnMouseOut = TRUE) %>%
     dyAxis("x", label = "Date", drawGrid = FALSE) %>%
     dyAxis("y", label = "Price") %>%
-    dyOptions(colors = c('#FFBC42','#1F78B4','#D81159','#33A02C'), strokeWidth = 1,mobileDisableYTouch = TRUE, axisLineWidth = 3) %>%
-    dyRangeSelector(fillColor = '#33A02C')
+    dyOptions(colors = c('#33A02C','#1F78B4','#D81159','#FFBC42'), strokeWidth = 1,mobileDisableYTouch = TRUE, axisLineWidth = 3) %>%
+    dyRangeSelector(fillColor = '#FFBC42')
   
 })
 
@@ -510,7 +536,65 @@ output$dygraph_17<-renderDygraph({
 
 #End of dygraphs Aesthetics
 
-######################################################################################################################
+########################################################################################################################################
+
+#Start of Final Plots
+
+labels = c("A1", "A2", "A3", "A4", "A5", "B1", "B2")
+parents = c("", "A1", "A2", "A3", "A4", "", "B1")
+values = c("11", "12", "13", "14", "15", "20", "30")
+
+
+output$dygraph_18<-renderDygraph({
+  dygraph(finaldata, main = "Stock Prices") %>%
+    dyHighlight(highlightCircleSize = 1, 
+                highlightSeriesBackgroundAlpha = 0.2,
+                hideOnMouseOut = TRUE) %>%
+    dyAxis("x", label = "Date", drawGrid = FALSE) %>%
+    dyAxis("y", label = "Price") %>%
+    dyOptions(colors = c('#FFBC42','#1F78B4','#D81159','#33A02C'), strokeWidth = 1,mobileDisableYTouch = TRUE, axisLineWidth = 3) %>%
+    dyRangeSelector(fillColor = '#33A02C')
+  
+})
+
+output$dygraph_19<-renderDygraph({
+  dygraph(finaldata, main = "Stock Prices",ylab ="Price",xlab = "Date") %>%
+    dyHighlight(highlightCircleSize = 1, 
+                highlightSeriesBackgroundAlpha = 0.2,
+                hideOnMouseOut = TRUE) %>%
+    dyAxis("x", drawGrid = FALSE) %>%
+    dyOptions(colors = c('#1F78B4','#33A02C','#FF7F00','#E31A1C'), mobileDisableYTouch = TRUE, axisLineWidth = 3) %>%
+    dyRangeSelector(fillColor = '#E31A1C')
+})
+
+output$treemap_1<-renderPlotly({
+  map_1 <- plot_ly(
+    type="treemap",
+    labels=labels,
+    parents=parents,
+    values=values,
+    opacity = 0.9,
+    marker = list(colors = c("#008000","#38b000", "#70e000", "#9ef01a", "ccff33","#008000", "#38b000"))) %>%
+    layout(title = "Treemap") 
+  map_1
+})
+
+output$treemap_2<-renderPlotly({
+  map_2 <- plot_ly(
+    type="treemap",
+    labels=labels,
+    parents=parents,
+    values=values,
+    textfont = list(family = "Arial"),
+    marker=list(colors=c("#5390d9", "#48bfe3", "#64dfdf", "#72efdd", "#80ffdb","#5390d9","#48bfe3"))) %>%
+    layout(title = "Treemap", font = list(family = "Times New Roman")) 
+  map_2
+})
+
+
+
+#End of Final Plots
+#########################################################################################################################################
     ds <- gapminder%>%
       dplyr::filter(year == max(year))%>%
       dplyr::arrange(-pop)%>%
@@ -745,9 +829,6 @@ output$dygraph_17<-renderDygraph({
       
     })
     
-    
-    
-    
-    
+  
   }
 )
